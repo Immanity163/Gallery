@@ -4,56 +4,246 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to
-				build a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your{' '}
-				<code>astro.config.mjs</code> file. You can customize your setup with{' '}
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like
-				Tailwind, React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>
-					Edit this page in <code>src/pages/index.astro</code>
-				</li>
-				<li>
-					Edit the site header items in <code>src/components/Header.astro</code>
-				</li>
-				<li>
-					Add your name to the footer in <code>src/components/Footer.astro</code>
-				</li>
-				<li>
-					Check out the included blog posts in <code>src/content/blog/</code>
-				</li>
-				<li>
-					Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code>
-				</li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to{' '}
-				<a href="https://docs.astro.build/">read the docs</a> or{' '}
-				<a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out{' '}
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a> by{' '}
-				<a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aleksei Kurbatov — Website concepts</title>
+<style>
+:root{--gold:#3b5bdb;--ink:#1b2230;--bg:#eef1f5;color-scheme:light}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+button{font:inherit;color:inherit}
+.stage{position:fixed;inset:0;overflow:hidden;perspective:900px;perspective-origin:50% 48%;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+.world{position:absolute;inset:0;transform-style:preserve-3d}
+.hall{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
+.plane{position:absolute;left:0;top:0;pointer-events:none}
+.floor{background:repeating-linear-gradient(0deg,#d9dfe8 0 38px,#cfd6e0 38px 40px)}
+.ceil{background:#f7f9fc}
+.wall{background:linear-gradient(#f6f8fb,#eef1f6 70%,#e3e8ef)}
+.name{display:grid;place-items:center;text-align:center}
+.name h2{font-size:calc(var(--W,300px)*.09);font-weight:400;letter-spacing:.04em}
+.name p{color:var(--gold);margin-top:.6em;font-size:calc(var(--W,300px)*.04);letter-spacing:.2em;text-transform:uppercase}
+.art{position:absolute;left:0;top:0;cursor:pointer;border:0;background:none;text-align:center;transition:filter .25s;-webkit-tap-highlight-color:transparent}
+.art:hover,.art:focus-visible{filter:brightness(1.3);outline:none}
+.frame{display:block;border:8px solid #1b2230;outline:2px solid #fff;outline-offset:-5px;box-shadow:0 8px 20px #1b223055}
+.shot{display:block;position:relative;overflow:hidden;width:100%;height:100%;background:linear-gradient(160deg,var(--c1,#555),var(--c2,#222))}
+.shot .bar{position:absolute;top:0;left:0;right:0;height:9%;background:#1b2230aa;display:flex;gap:4px;align-items:center;padding-left:7px}
+.shot .bar u{width:5px;height:5px;border-radius:50%;background:#fff9}
+.shot img{position:absolute;left:0;top:9%;width:100%;height:91%;object-fit:cover;object-position:top}
+.shot b{color:#fff;position:absolute;left:5%;bottom:8%;font-weight:400;font-size:calc(var(--W,300px)*.075);text-shadow:0 1px 8px #0008}
+.cap{display:block;margin-top:8px;font-size:max(11px,calc(var(--W,300px)*.04));letter-spacing:.14em;text-transform:uppercase;color:#5a6577}
+.vig{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 55%,#1b223026 100%)}
+.intro{position:fixed;left:0;right:0;top:0;padding:calc(22px + env(safe-area-inset-top,0px)) 24px 0;pointer-events:none;transition:opacity .4s;z-index:3}
+.intro h1{font-size:clamp(18px,2.4vw,26px);font-weight:400}
+.intro p{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:6px}
+.hint{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#5a6577;pointer-events:none;transition:opacity .4s;z-index:3}
+.nav{position:fixed;top:50%;transform:translateY(-50%);z-index:4;width:46px;height:70px;border:0;background:#ffffffe6;box-shadow:0 2px 10px #1b223033;color:var(--ink);font-size:30px;cursor:pointer;border-radius:10px;-webkit-tap-highlight-color:transparent}
+.nav:disabled{opacity:.25}
+.nav.l{left:8px}.nav.r{right:8px}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none}
+.dock>*{pointer-events:auto}
+.tab{background:#fff;color:var(--ink);border:1px solid #cbd3df;border-bottom:0;border-radius:14px 14px 0 0;padding:16px 30px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.tab span{display:inline-block;transition:transform .3s;margin-left:8px;color:var(--gold)}
+.dock.open .tab span{transform:rotate(180deg)}
+.panel{width:min(760px,100%);background:#fff;border:1px solid #cbd3df;border-bottom:0;border-radius:14px 14px 0 0;max-height:0;overflow:hidden;transition:max-height .45s ease}
+.dock.open .panel{max-height:70vh;overflow:auto}
+.inner{padding:26px 28px 30px;display:grid;gap:22px;grid-template-columns:1fr 1fr}
+.inner h3{font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.inner p,.inner li{font-size:15px;line-height:1.55;color:#3a4457}
+.inner ul{list-style:none;padding:0}
+.inner li{padding:3px 0}
+.inner a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold)}
+.wide{grid-column:1/-1}
+@media(max-width:600px){.inner{grid-template-columns:1fr}}
+.modal{position:fixed;inset:0;z-index:10;background:#1b2230b3;display:none;place-items:center;padding:16px}
+.modal.on{display:grid}
+.card{width:min(640px,100%);max-height:100%;overflow:auto;background:#fff;border:1px solid #cbd3df;border-radius:12px}
+.card .pic{aspect-ratio:16/10}
+.card .t{padding:20px 22px 24px}
+.card h2{font-weight:400;font-size:24px}
+.card .m{color:var(--gold);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:6px 0 12px}
+.card p{line-height:1.55;color:#3a4457;font-size:15px}
+.row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.row a,.row button{background:none;border:1px solid var(--gold);padding:11px 18px;border-radius:8px;cursor:pointer;text-decoration:none;font-size:14px}
+.row a{background:var(--gold);color:#fff}
+.cta{display:grid;place-items:center;text-align:center;border:8px solid #1b2230;outline:2px solid #fff;outline-offset:-5px;background:#fff}
+.cta h2{font-size:calc(var(--W,300px)*.09);font-weight:400}
+.cta p{color:var(--gold);margin-top:.6em;font-size:calc(var(--W,300px)*.04);letter-spacing:.2em;text-transform:uppercase}
+.contact{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translate(-50%,12px);width:min(520px,92%);z-index:4;text-align:center;opacity:0;pointer-events:none;transition:opacity .4s,transform .4s}
+.contact.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.contact p{font-size:15px;color:#3a4457;margin-bottom:12px;}
+.links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.links a{background:var(--gold);color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;font-size:15px;min-width:104px}
+#projects{display:none}
+</style>
+</head>
+<body>
+
+<!-- ============ PROJECTS: the only place to edit / add content ============
+  One <li> = one painting. In WordPress, output one <li> per "project" post:
+  data-type = category, data-url = permalink or live site, data-img = featured image URL
+  (empty = coloured placeholder), h3 = title, p = excerpt. --c1/--c2 = placeholder colours. -->
+<ul id="projects">
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#8fd8b0;--c2:#2f8f6b"><h3>Villagio</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#ffb48f;--c2:#e0603a"><h3>Monteville</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#8fbcff;--c2:#3b6fe0"><h3>WerweinStay</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#e6ebf2;--c2:#8fa0b8"><h3>Baseline</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#ff9aa5;--c2:#d93c52"><h3>TomFitness</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#c0a8ff;--c2:#6a45e0"><h3>Bruno Token</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+</ul>
+
+<div class="stage"><div class="world" id="world"><div class="hall" id="hall"></div></div></div>
+<div class="vig"></div>
+<button class="nav l" id="prev" type="button" aria-label="Previous">‹</button><button class="nav r" id="next" type="button" aria-label="Next">›</button>
+<header class="intro" id="intro"><h1>Aleksei Kurbatov</h1><p>Website concepts</p></header>
+<div class="hint" id="hint">Swipe or scroll to browse the concepts · tap one to open it</div>
+
+<div class="contact" id="contact"><p>Want a concept like these built for you?</p><div class="links"><a href="mailto:hello@example.com">Email</a><a href="#">LinkedIn</a><a href="#">Behance</a></div></div>
+
+<div class="modal" id="modal"><div class="card">
+  <div class="pic" id="mpic"></div>
+  <div class="t"><h2 id="mt"></h2><div class="m" id="mm"></div><p id="md"></p>
+  <div class="row"><a id="ml" href="#" target="_blank" rel="noopener">View live concept</a><button id="mc" type="button">Close</button></div></div>
+</div></div>
+
+<div class="dock" id="dock">
+  <div class="panel" id="panel"><div class="inner">
+    <div class="wide"><h3>About</h3><p>This gallery shows website concepts I design and prototype. Designer for 3 years, developer for 5. I run Kurbatov Dev, a small web studio in Belgrade, and take contract and part-time remote work with teams in the EU and US.</p></div>
+    <div><h3>Stack</h3><p>Figma, Adobe Suite, WordPress, PHP, HTML/CSS/JS, React</p></div>
+    <div><h3>Elsewhere</h3><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Behance</a></li><li><a href="#">kurbatov.dev</a></li><li><a href="#">hello@example.com</a></li></ul></div>
+  </div></div>
+  <button class="tab" id="tab" type="button" aria-expanded="false" aria-controls="panel">About me<span>▲</span></button>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var items=[].map.call(document.querySelectorAll("#projects li"),function(li){
+  return{title:li.querySelector("h3").textContent,desc:(li.querySelector("p")||{}).textContent||"",type:li.dataset.type||"",url:li.dataset.url||"#",img:li.dataset.img||"",style:li.getAttribute("style")||""};
+});
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function shot(p,big){
+  return '<span class="shot" style="'+esc(p.style)+'"><span class="bar"><u></u><u></u><u></u></span>'+(p.img?'<img src="'+esc(p.img)+'" alt="">':'')+(p.img||big?'':'<b>'+esc(p.title)+'</b>')+'</span>';
+}
+var modal=$("modal");
+function openM(p){
+  $("mpic").innerHTML=shot(p,true);$("mt").textContent=p.title;$("mm").textContent=p.type;$("md").textContent=p.desc;
+  var l=$("ml");l.href=p.url;l.style.display=p.url==="#"?"none":"";
+  modal.classList.add("on");
+}
+function closeM(){modal.classList.remove("on")}
+$("mc").onclick=closeM;modal.onclick=function(e){if(e.target===modal)closeM()};
+var dock=$("dock"),tab=$("tab");
+tab.onclick=function(){var o=dock.classList.toggle("open");tab.setAttribute("aria-expanded",o)};
+addEventListener("keydown",function(e){if(e.key==="Escape"){closeM();dock.classList.remove("open");tab.setAttribute("aria-expanded","false")}});
+
+var hall=$("hall"),world=$("world"),stage=document.querySelector(".stage"),cur=0,tgt=0,N=0,stops=[{x:0,z:0}],mx=0,my=0,por=false,fine=matchMedia("(pointer:fine)").matches;
+function clamp(v){return Math.max(0,Math.min(N,v))}
+function go(i){tgt=clamp(Math.round(i));ui()}
+function ui(){var m=tgt>.2;$("intro").style.opacity=$("hint").style.opacity=m?0:1;$("contact").classList.toggle("on",Math.round(tgt)>=N);$("prev").disabled=Math.round(tgt)<=0;$("next").disabled=Math.round(tgt)>=N}
+function plane(cls,css){var d=document.createElement("div");d.className="plane "+cls;d.style.cssText=css;hall.appendChild(d);return d}
+function build(){
+  var keep=Math.round(tgt);
+  hall.innerHTML="";
+  por=innerWidth<innerHeight*.9;
+  var n=items.length,P=por?520:900,dd=por?150:200,Zw=por?900:1200;
+  stage.style.perspective=P+"px";
+  var k=(P+dd)/P;
+  var W=Math.round(Math.min(760,(por?.88:.58)*innerWidth*k,(por?.5:.52)*innerHeight/.625*k)),H=Math.round(W*.625),S=Math.round(W*1.25),h=Math.round(H/2+(por?130:180));
+  var xmin=-W*1.7,xmax=n*S+W*1.3,T=900,cols=Math.ceil((xmax-xmin)/T),rows=Math.ceil((Zw+900)/T);
+  var tw="width:"+(T+1)+"px;",m1="margin:"+(-h)+"px 0 0 "+(-T/2)+"px;",m2="margin:"+(-T/2)+"px 0 0 "+(-T/2)+"px;";
+  /* every surface is made of tiles of at most 900px: very large layers do not render on many phones */
+  for(var c=0;c<cols;c++){
+    var cx=xmin+T*(c+.5);
+    plane("wall",tw+"height:"+h*2+"px;"+m1+"transform:translate3d("+cx+"px,0,"+-Zw+"px)");
+    for(var r=0;r<rows;r++){
+      var zr=900-T*(r+.5),f=tw+"height:"+(T+1)+"px;"+m2;
+      plane("floor",f+"transform:translate3d("+cx+"px,"+h+"px,"+zr+"px) rotateX(90deg)");
+      plane("ceil",f+"transform:translate3d("+cx+"px,"+(-h)+"px,"+zr+"px) rotateX(-90deg)");
+    }
+  }
+  for(var r2=0;r2<rows;r2++){
+    var z2=900-T*(r2+.5);
+    plane("wall",tw+"height:"+h*2+"px;"+m1+"transform:translate3d("+xmin+"px,0,"+z2+"px) rotateY(90deg)");
+    plane("wall",tw+"height:"+h*2+"px;"+m1+"transform:translate3d("+xmax+"px,0,"+z2+"px) rotateY(-90deg)");
+  }
+  var nm=plane("name","--W:"+W+"px;width:"+Math.round(W*.9)+"px;height:"+H+"px;margin:"+(-H/2)+"px 0 0 "+(-W*.45)+"px;transform:translate3d("+Math.round(-W*.95)+"px,0,"+(-Zw+2)+"px)");
+  nm.innerHTML="<div><h2>Aleksei Kurbatov</h2><p>Website concepts</p></div>";
+  var ct=plane("cta","--W:"+W+"px;width:"+W+"px;height:"+H+"px;margin:"+(-H/2)+"px 0 0 "+(-W/2)+"px;transform:translate3d("+n*S+"px,0,"+(-Zw+4)+"px)");
+  ct.innerHTML="<div><h2>Let’s build the next concept</h2><p>Contact</p></div>";
+  items.forEach(function(p,i){
+    var a=document.createElement("button");a.className="art";a.dataset.i=i;a.type="button";a.setAttribute("aria-label",p.title+" — open concept");
+    a.style.cssText="--W:"+W+"px;width:"+W+"px;height:"+(H+40)+"px;margin:"+(-H/2)+"px 0 0 "+(-W/2)+"px;transform:translate3d("+i*S+"px,0,"+(-Zw+4)+"px)";
+    a.innerHTML='<span class="frame" style="height:'+H+'px">'+shot(p)+'</span><span class="cap">'+esc(p.title)+' · '+esc(p.type)+'</span>';
+    a.onclick=function(){openM(p)};
+    hall.appendChild(a);
+  });
+  stops=[{x:Math.round(-W*.3),z:0}];
+  for(var q=0;q<=n;q++)stops.push({x:q*S,z:Zw-dd});
+  N=n+1;vw=[W,H,k];
+  go(Math.min(keep,N));cur=tgt;
+}
+function pos(s){
+  var i=Math.max(0,Math.min(N-1,Math.floor(s))),f=Math.max(0,Math.min(1,s-i)),a=stops[i],b=stops[Math.min(i+1,N)];
+  if(N===0)return a;
+  f=f<=0?0:f;
+  return{x:a.x+(b.x-a.x)*f,z:a.z+(b.z-a.z)*f};
+}
+
+/* input: swipe / drag / wheel / keys all move along the path; tap opens a project */
+var drag=null,moved=false,wt;
+stage.addEventListener("pointerdown",function(e){drag={x:e.clientX,y:e.clientY,t:tgt,ax:null,lt:performance.now(),lv:tgt,v:0};moved=false});
+addEventListener("pointermove",function(e){
+  if(!drag)return;
+  var dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!moved){if(Math.hypot(dx,dy)<12)return;moved=true;drag.ax=Math.abs(dx)>Math.abs(dy)?"x":"y"}
+  tgt=clamp(drag.t-(drag.ax==="x"?dx:dy)/(por?240:400));
+  var now=performance.now();if(now-drag.lt>30){drag.v=(tgt-drag.lv)/(now-drag.lt);drag.lt=now;drag.lv=tgt}
+  ui();
+});
+var vw=[0,0,1];
+/* tap is resolved by geometry, not by the browser's 3D hit-testing (unreliable on phones) */
+function tap(e){
+  var x=e.clientX,y=e.clientY,best=null,bd=1e9;
+  [].forEach.call(hall.querySelectorAll(".art"),function(a){
+    var r=a.getBoundingClientRect();
+    if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom){var d=Math.abs((r.left+r.right)/2-innerWidth/2);if(d<bd){bd=d;best=+a.dataset.i}}
+  });
+  if(best===null){
+    var s=Math.round(cur);
+    if(s>=1&&s<=items.length&&Math.abs(cur-s)<.2&&Math.abs(x-innerWidth/2)<vw[0]*vw[2]/2&&Math.abs(y-innerHeight*.48)<vw[1]*vw[2]/2)best=s-1;
+  }
+  if(best!==null)openM(items[best]);
+}
+function end(e){
+  if(drag&&moved)go(tgt+drag.v*260);
+  else if(drag&&e&&e.type==="pointerup")tap(e);
+  drag=null;
+}
+addEventListener("pointerup",end);addEventListener("pointercancel",end);
+stage.addEventListener("click",function(e){if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
+stage.addEventListener("wheel",function(e){
+  tgt=clamp(tgt+(e.deltaY+e.deltaX)*.0016);ui();
+  clearTimeout(wt);wt=setTimeout(function(){go(tgt)},140);
+},{passive:true});
+$("prev").onclick=function(){go(Math.round(tgt)-1)};
+$("next").onclick=function(){go(Math.round(tgt)+1)};
+addEventListener("keydown",function(e){
+  var k=e.key;
+  if(k==="ArrowRight"||k==="ArrowDown"||k==="PageDown"||k===" ")go(Math.round(tgt)+1);
+  if(k==="ArrowLeft"||k==="ArrowUp"||k==="PageUp")go(Math.round(tgt)-1);
+});
+addEventListener("mousemove",function(e){if(fine){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}});
+var rt;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(build,200)});
+function tick(){
+  cur+=(tgt-cur)*.09;
+  var p=pos(cur),yaw=Math.max(-5,Math.min(5,(tgt-cur)*6));
+  hall.style.transform="translate3d("+(-p.x).toFixed(1)+"px,0,"+p.z.toFixed(1)+"px)";
+  world.style.transform="rotateY("+(yaw+(fine?mx*-3:0)).toFixed(2)+"deg) rotateX("+(fine?my*1.5:0).toFixed(2)+"deg)";
+  requestAnimationFrame(tick);
+}
+build();tick();
+</script>
+</body>
 </html>

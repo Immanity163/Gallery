@@ -3,6 +3,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +12,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aleksei Kurbatov — Website concepts</title>
-<style>
+<style is:global>
 :root{--gold:#3b5bdb;--ink:#1b2230;--bg:#eef1f5;color-scheme:light}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
@@ -31,7 +33,7 @@ button{font:inherit;color:inherit}
 .shot{display:block;position:relative;overflow:hidden;width:100%;height:100%;background:linear-gradient(160deg,var(--c1,#555),var(--c2,#222))}
 .shot .bar{position:absolute;top:0;left:0;right:0;height:9%;background:#1b2230aa;display:flex;gap:4px;align-items:center;padding-left:7px}
 .shot .bar u{width:5px;height:5px;border-radius:50%;background:#fff9}
-.shot img{position:absolute;left:0;top:9%;width:100%;height:91%;object-fit:cover;object-position:top}
+.shot img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;object-position:center}
 .shot b{color:#fff;position:absolute;left:5%;bottom:8%;font-weight:400;font-size:calc(var(--W,300px)*.075);text-shadow:0 1px 8px #0008}
 .cap{display:block;margin-top:8px;font-size:max(11px,calc(var(--W,300px)*.04));letter-spacing:.14em;text-transform:uppercase;color:#5a6577}
 .vig{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 55%,#1b223026 100%)}
@@ -81,17 +83,19 @@ button{font:inherit;color:inherit}
 </head>
 <body>
 
-<!-- ============ PROJECTS: the only place to edit / add content ============
-  One <li> = one painting. In WordPress, output one <li> per "project" post:
-  data-type = category, data-url = permalink or live site, data-img = featured image URL
-  (empty = coloured placeholder), h3 = title, p = excerpt. --c1/--c2 = placeholder colours. -->
+
 <ul id="projects">
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#8fd8b0;--c2:#2f8f6b"><h3>Villagio</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#ffb48f;--c2:#e0603a"><h3>Monteville</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#8fbcff;--c2:#3b6fe0"><h3>WerweinStay</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#e6ebf2;--c2:#8fa0b8"><h3>Baseline</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#ff9aa5;--c2:#d93c52"><h3>TomFitness</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
-  <li data-type="Website concept" data-url="#" data-img="" style="--c1:#c0a8ff;--c2:#6a45e0"><h3>Bruno Token</h3><p>Concept brief: the idea, the audience, the key design decisions.</p></li>
+  {projects.map((p) => (
+    <li
+      data-type={p.data.type}
+      data-url={p.data.url}
+      data-img={p.data.img}
+      style={`--c1:${p.data.c1};--c2:${p.data.c2}`}
+    >
+      <h3>{p.data.title}</h3>
+      <p>{p.body}</p>
+    </li>
+  ))}
 </ul>
 
 <div class="stage"><div class="world" id="world"><div class="hall" id="hall"></div></div></div>
@@ -100,7 +104,7 @@ button{font:inherit;color:inherit}
 <header class="intro" id="intro"><h1>Aleksei Kurbatov</h1><p>Website concepts</p></header>
 <div class="hint" id="hint">Swipe or scroll to browse the concepts · tap one to open it</div>
 
-<div class="contact" id="contact"><p>Want a concept like these built for you?</p><div class="links"><a href="mailto:hello@example.com">Email</a><a href="#">LinkedIn</a><a href="#">Behance</a></div></div>
+<div class="contact" id="contact"><p>Want a concept like these built for you?</p><div class="links"><a href="mailto:contact@mail.kurbatov.dev">Email</a><a href="https://www.linkedin.com/in/aleksei-kurbatov-8a7158428/">LinkedIn</a><a href="#">Behance</a></div></div>
 
 <div class="modal" id="modal"><div class="card">
   <div class="pic" id="mpic"></div>
@@ -111,20 +115,22 @@ button{font:inherit;color:inherit}
 <div class="dock" id="dock">
   <div class="panel" id="panel"><div class="inner">
     <div class="wide"><h3>About</h3><p>This gallery shows website concepts I design and prototype. Designer for 3 years, developer for 5. I run Kurbatov Dev, a small web studio in Belgrade, and take contract and part-time remote work with teams in the EU and US.</p></div>
-    <div><h3>Stack</h3><p>Figma, Adobe Suite, WordPress, PHP, HTML/CSS/JS, React</p></div>
-    <div><h3>Elsewhere</h3><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Behance</a></li><li><a href="#">kurbatov.dev</a></li><li><a href="#">hello@example.com</a></li></ul></div>
+    <div><h3>Stack</h3><p>Figma, Adobe Suite, WordPress, PHP, HTML/CSS/JS, React, Astro/Next.js</p></div>
+    <div><h3>Elsewhere</h3><ul><li><a href="https://www.linkedin.com/in/aleksei-kurbatov-8a7158428/">LinkedIn</a></li><li><a href="https://www.behance.net/kurbatovdev">Behance</a></li><li><a href="mailto:contact@mail.kurbatov.dev">contact@mail.kurbatov.dev</a></li></ul></div>
   </div></div>
-  <button class="tab" id="tab" type="button" aria-expanded="false" aria-controls="panel">About me<span>▲</span></button>
+  <button class="tab" id="tab" type="button" aria-expanded="false" aria-controls="panel">About me<span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+<path d="M11.2558 8.75233C11.5814 8.42615 11.5814 7.89725 11.2558 7.57107L7.17783 3.48873C6.52664 2.83688 5.4715 2.83713 4.82064 3.48923L0.744195 7.57408C0.4186 7.90026 0.4186 8.42916 0.744195 8.75535C1.06971 9.08155 1.59753 9.08155 1.92304 8.75535L5.41206 5.25919C5.73757 4.93293 6.2654 4.93301 6.59091 5.25919L10.077 8.75233C10.4025 9.07854 10.9303 9.07854 11.2558 8.75233Z" fill="#3B5BDB"/>
+</svg></span></button>
 </div>
 
-<script>
+<script is:inline>
 var $=function(i){return document.getElementById(i)};
 var items=[].map.call(document.querySelectorAll("#projects li"),function(li){
   return{title:li.querySelector("h3").textContent,desc:(li.querySelector("p")||{}).textContent||"",type:li.dataset.type||"",url:li.dataset.url||"#",img:li.dataset.img||"",style:li.getAttribute("style")||""};
 });
 function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function shot(p,big){
-  return '<span class="shot" style="'+esc(p.style)+'"><span class="bar"><u></u><u></u><u></u></span>'+(p.img?'<img src="'+esc(p.img)+'" alt="">':'')+(p.img||big?'':'<b>'+esc(p.title)+'</b>')+'</span>';
+  return '<span class="shot" style="'+esc(p.style)+'">'+(p.img?'<img src="'+esc(p.img)+'" alt="">':'')+(p.img||big?'':'<b>'+esc(p.title)+'</b>')+'</span>';
 }
 var modal=$("modal");
 function openM(p){

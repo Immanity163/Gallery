@@ -7,4 +7,4 @@ c1: "#8fd8b0"
 c2: "#2f8f6b"
 order: 1
 ---
-A website concept for a tour operator for tours in Japan with scroll animated illustration in background
+An immersive website concept for a Japan travel agency, driven by dynamic, scroll-triggered background illustrations.

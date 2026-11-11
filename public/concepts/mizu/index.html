@@ -362,6 +362,31 @@ footer{padding:8vh clamp(20px,6vw,96px) 10vh;font-size:14px;text-shadow:0 1px 10
   var f=document.getElementById('inquiry'),s=document.getElementById('sent');
   f.addEventListener('submit',function(e){e.preventDefault();f.hidden=true;s.hidden=false});
 })();
+
+(function(){
+  var root=document.documentElement,raf=0;
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+  function stop(){cancelAnimationFrame(raf);root.style.scrollBehavior=''}
+  ['wheel','touchstart','keydown'].forEach(function(n){addEventListener(n,stop,{passive:true})});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]');if(!a)return;
+    var id=a.getAttribute('href').slice(1),el=id&&document.getElementById(id);
+    if(!el)return;
+    e.preventDefault();
+    var pad=parseFloat(getComputedStyle(root).scrollPaddingTop)||0,
+        from=scrollY,
+        to=Math.min(Math.max(0,el.getBoundingClientRect().top+scrollY-pad),root.scrollHeight-innerHeight),
+        dur=Math.min(1300,Math.max(500,Math.abs(to-from)*.4)),t0=performance.now();
+    history.pushState(null,'','#'+id);
+    cancelAnimationFrame(raf);root.style.scrollBehavior='auto';
+    (function step(now){
+      var p=Math.min(1,(now-t0)/dur);
+      scrollTo(0,from+(to-from)*ease(p));
+      if(p<1)raf=requestAnimationFrame(step);
+      else{root.style.scrollBehavior='';el.setAttribute('tabindex','-1');el.focus({preventScroll:true})}
+    })(t0);
+  });
+})();
 </script>
 </body>
 </html>

@@ -13,14 +13,15 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tiny5:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Tiny5&display=swap" rel="stylesheet">
 <title>Aleksei Kurbatov — Website gallery</title>
 <meta name="description" content="I am Aleksei, website designer and developer. On this page you can explore my works and see some beautiful concepts for an upcoming websites">
 <style is:global>
-:root{--gold:#3b5bdb;--ink:#1b2230;--bg:#eef1f5;color-scheme:light}
+:root{--gold:#3b5bdb;--ink:#1b2230;--bg:#eef1f5;--font-body:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--font-head:"Tiny5","Space Grotesk",system-ui,sans-serif;color-scheme:light}
 *{box-sizing:border-box;margin:0}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family: "Tiny5", sans-serif;}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family:var(--font-body)}
 button{font:inherit;color:inherit}
+h1,h2,h3,.shot b{font-family:var(--font-head);font-weight:400}
 .stage{position:fixed;inset:0;overflow:hidden;perspective:900px;perspective-origin:50% 48%;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
 .world{position:absolute;inset:0;transform-style:preserve-3d}
 .hall{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}

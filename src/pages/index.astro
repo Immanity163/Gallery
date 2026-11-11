@@ -113,7 +113,7 @@ button{font:inherit;color:inherit}
 <div class="modal" id="modal"><div class="card">
   <div class="pic" id="mpic"></div>
   <div class="t"><h2 id="mt"></h2><div class="m" id="mm"></div><p id="md"></p>
-  <div class="row"><a id="ml" href="#" target="_blank" rel="noopener">View live concept</a><button id="mc" type="button">Close</button></div></div>
+  <div class="row"><a id="ml" href="#" target="_blank" rel="noopener">View live</a><button id="mc" type="button">Close</button></div></div>
 </div></div>
 
 <div class="dock" id="dock">
@@ -179,11 +179,11 @@ function build(){
     plane("wall",tw+"height:"+h*2+"px;"+m1+"transform:translate3d("+xmax+"px,0,"+z2+"px) rotateY(-90deg)");
   }
   var nm=plane("name","--W:"+W+"px;width:"+Math.round(W*.9)+"px;height:"+H+"px;margin:"+(-H/2)+"px 0 0 "+(-W*.45)+"px;transform:translate3d("+Math.round(-W*.95)+"px,0,"+(-Zw+2)+"px)");
-  nm.innerHTML="<div><h2>Aleksei Kurbatov</h2><p>Website concepts</p></div>";
+  nm.innerHTML="<div><h2>Aleksei Kurbatov</h2><p>Websites</p></div>";
   var ct=plane("cta","--W:"+W+"px;width:"+W+"px;height:"+H+"px;margin:"+(-H/2)+"px 0 0 "+(-W/2)+"px;transform:translate3d("+n*S+"px,0,"+(-Zw+4)+"px)");
   ct.innerHTML="<div><h2>Let’s build your project</h2><p>Contact</p></div>";
   items.forEach(function(p,i){
-    var a=document.createElement("button");a.className="art";a.dataset.i=i;a.type="button";a.setAttribute("aria-label",p.title+" — open concept");
+    var a=document.createElement("button");a.className="art";a.dataset.i=i;a.type="button";a.setAttribute("aria-label",p.title+" — open project");
     a.style.cssText="--W:"+W+"px;width:"+W+"px;height:"+(H+40)+"px;margin:"+(-H/2)+"px 0 0 "+(-W/2)+"px;transform:translate3d("+i*S+"px,0,"+(-Zw+4)+"px)";
     a.innerHTML='<span class="frame" style="height:'+H+'px">'+shot(p)+'</span><span class="cap">'+esc(p.title)+' · '+esc(p.type)+'</span>';
     a.onclick=function(){openM(p)};

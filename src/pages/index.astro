@@ -11,11 +11,14 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiny5:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <title>Aleksei Kurbatov — Website gallery</title>
 <style is:global>
 :root{--gold:#3b5bdb;--ink:#1b2230;--bg:#eef1f5;color-scheme:light}
 *{box-sizing:border-box;margin:0}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--ink);font-family: "Tiny5", sans-serif;}
 button{font:inherit;color:inherit}
 .stage{position:fixed;inset:0;overflow:hidden;perspective:900px;perspective-origin:50% 48%;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
 .world{position:absolute;inset:0;transform-style:preserve-3d}
@@ -44,14 +47,15 @@ button{font:inherit;color:inherit}
 .nav{position:fixed;top:50%;transform:translateY(-50%);z-index:4;width:46px;height:70px;border:0;background:#ffffffe6;box-shadow:0 2px 10px #1b223033;color:var(--ink);font-size:30px;cursor:pointer;border-radius:10px;-webkit-tap-highlight-color:transparent}
 .nav:disabled{opacity:.25}
 .nav.l{left:8px}.nav.r{right:8px}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;flex-direction:column;align-items:center;pointer-events:none}
 .dock>*{pointer-events:auto}
-.tab{background:#fff;color:var(--ink);border:1px solid #cbd3df;border-bottom:0;border-radius:14px 14px 0 0;padding:16px 30px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.tab{position:relative;z-index:1;margin-bottom:-1px;background:#fff;color:var(--ink);border:1px solid #cbd3df;border-bottom:0;border-radius:14px 14px 0 0;padding:16px 30px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.dock:not(.open) .tab{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 .tab span{display:inline-block;transition:transform .3s;margin-left:8px;color:var(--gold)}
 .dock.open .tab span{transform:rotate(180deg)}
-.panel{width:min(760px,100%);background:#fff;border:1px solid #cbd3df;border-bottom:0;border-radius:14px 14px 0 0;max-height:0;overflow:hidden;transition:max-height .45s ease}
-.dock.open .panel{max-height:70vh;overflow:auto}
-.inner{padding:26px 28px 30px;display:grid;gap:22px;grid-template-columns:1fr 1fr}
+.panel{width:min(760px,100%);background:#fff;border:0 solid #cbd3df;border-radius:14px 14px 0 0;max-height:0;overflow:hidden;transition:max-height .45s ease}
+.dock.open .panel{border-width:1px 1px 0;max-height:70vh;overflow:auto}
+.inner{padding:26px 28px calc(30px + env(safe-area-inset-bottom,0px));display:grid;gap:22px;grid-template-columns:1fr 1fr}
 .inner h3{font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
 .inner p,.inner li{font-size:15px;line-height:1.55;color:#3a4457}
 .inner ul{list-style:none;padding:0}
@@ -113,14 +117,14 @@ button{font:inherit;color:inherit}
 </div></div>
 
 <div class="dock" id="dock">
+  <button class="tab" id="tab" type="button" aria-expanded="false" aria-controls="panel">About me<span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+<path d="M11.2558 8.75233C11.5814 8.42615 11.5814 7.89725 11.2558 7.57107L7.17783 3.48873C6.52664 2.83688 5.4715 2.83713 4.82064 3.48923L0.744195 7.57408C0.4186 7.90026 0.4186 8.42916 0.744195 8.75535C1.06971 9.08155 1.59753 9.08155 1.92304 8.75535L5.41206 5.25919C5.73757 4.93293 6.2654 4.93301 6.59091 5.25919L10.077 8.75233C10.4025 9.07854 10.9303 9.07854 11.2558 8.75233Z" fill="#3B5BDB"/>
+</svg></span></button>
   <div class="panel" id="panel"><div class="inner">
     <div class="wide"><h3>About</h3><p>This gallery shows websites I design and prototype. I'm a designer for 3 years and a developer for 5. We can discuss contract or collab on a part-time remote work with teams in the EU and US.</p></div>
     <div><h3>Stack</h3><p>Figma, Adobe Suite, WordPress, PHP, HTML/CSS/JS, React, Astro/Next.js</p></div>
     <div><h3>Elsewhere</h3><ul><li><a href="https://www.linkedin.com/in/aleksei-kurbatov-8a7158428/">LinkedIn</a></li><li><a href="https://www.behance.net/kurbatovdev">Behance</a></li><li><a href="mailto:contact@mail.kurbatov.dev">contact@mail.kurbatov.dev</a></li></ul></div>
   </div></div>
-  <button class="tab" id="tab" type="button" aria-expanded="false" aria-controls="panel">About me<span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-<path d="M11.2558 8.75233C11.5814 8.42615 11.5814 7.89725 11.2558 7.57107L7.17783 3.48873C6.52664 2.83688 5.4715 2.83713 4.82064 3.48923L0.744195 7.57408C0.4186 7.90026 0.4186 8.42916 0.744195 8.75535C1.06971 9.08155 1.59753 9.08155 1.92304 8.75535L5.41206 5.25919C5.73757 4.93293 6.2654 4.93301 6.59091 5.25919L10.077 8.75233C10.4025 9.07854 10.9303 9.07854 11.2558 8.75233Z" fill="#3B5BDB"/>
-</svg></span></button>
 </div>
 
 <script is:inline>

@@ -7,4 +7,4 @@ c1: "#8fd8b0"
 c2: "#2f8f6b"
 order: 1
 ---
-An immersive website concept for a Japan travel agency, driven by dynamic, scroll-triggered background illustrations.
+Website concept for Japan travel agency. Interactive hero section with koi following the cursor
